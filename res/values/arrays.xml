@@ -17,7 +17,7 @@
 -->
 <resources>
 
-    <string-array name="products">
+    <string-array name="products_array">
         <item>Rice</item>
         <item>Apple</item>
         <item>Orange</item>
