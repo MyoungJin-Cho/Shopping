@@ -15,12 +15,17 @@
 package org.ricciardelli.shopping;
 
 import android.app.Activity;
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
 public class Shopping extends Activity {
+	private Database helper;
+	private SQLiteDatabase db;
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -43,6 +48,16 @@ public class Shopping extends Activity {
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+	}
+
+	private void openDatabase(Context context) {
+		helper = new Database(context);
+		db = helper.getWritableDatabase();
+	}
+
+	private void closeDatabase() {
+		db.close();
+		helper.close();
 	}
 
 }
