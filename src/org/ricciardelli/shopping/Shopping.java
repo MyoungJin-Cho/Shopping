@@ -53,7 +53,8 @@ public class Shopping extends Activity {
 		short i = 0;
 		if (cursor.moveToFirst())
 			do {
-				products[i] = cursor.getString(1);
+				products[i] = cursor.getString(1) + " - Bs. "
+						+ cursor.getString(3);
 				i++;
 			} while (cursor.moveToNext());
 		Main.closeDatabase();
