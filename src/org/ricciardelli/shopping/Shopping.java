@@ -16,11 +16,15 @@ package org.ricciardelli.shopping;
 
 import android.app.Activity;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 
 public class Shopping extends Activity {
 	private Database helper;
@@ -31,6 +35,7 @@ public class Shopping extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+		inflateList();
 	}
 
 	@Override
@@ -60,4 +65,19 @@ public class Shopping extends Activity {
 		helper.close();
 	}
 
+	private ListAdapter getTwoLineListItemAdapter(Context context, String sql) {
+		openDatabase(context);
+		Cursor cursor = db.rawQuery(sql, null);
+		startManagingCursor(cursor);
+		return new SimpleCursorAdapter(context, R.layout.two_lines, cursor,
+				new String[] { "name", "description" }, new int[] { R.id.text1,
+						R.id.text2 });
+	}
+
+	private void inflateList() {
+		ListView shoppingLists = (ListView) findViewById(R.id.shoppingLists);
+		shoppingLists.setAdapter(getTwoLineListItemAdapter(this,
+				"SELECT * FROM lists"));
+		shoppingLists.setEmptyView(findViewById(R.id.noLists));
+	}
 }
