@@ -20,7 +20,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class Database extends SQLiteOpenHelper {
 	private static String DB_NAME = "shopping.db";
-	private static int DB_VERSION = 1;
+	private static int DB_VERSION = 3;
 
 	public Database(Context context) {
 		super(context, DB_NAME, null, DB_VERSION);
@@ -31,11 +31,14 @@ public class Database extends SQLiteOpenHelper {
 		db.execSQL("CREATE TABLE lists (_id INTEGER PRIMARY KEY AUTOINCREMENT, name STRING, description TEXT);");
 		db.execSQL("CREATE TABLE products (_id INTEGER PRIMARY KEY AUTOINCREMENT, name STRING, description TEXT, price DECIMAL, list INTEGER NOT NULL, FOREIGN KEY (list) REFERENCES lists (_id);");
 		db.execSQL("INSERT INTO lists VALUES (null, 'Testing', 'This is a sample list.', );");
+		db.execSQL("INSERT INTO lists VALUES (null, 'Sample List', 'Shopping sample list.', );");
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		
+		db.execSQL("DROP TABLE IF EXISTS lists;");
+		db.execSQL("DROP TABLE IF EXISTS products;");
+		onCreate(db);
 	}
 
 }
