@@ -20,7 +20,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class Database extends SQLiteOpenHelper {
 	private static String DB_NAME = "shopping.db";
-	private static int DB_VERSION = 7;
+	private static int DB_VERSION = 11;
 
 	public Database(Context context) {
 		super(context, DB_NAME, null, DB_VERSION);
@@ -33,6 +33,7 @@ public class Database extends SQLiteOpenHelper {
 
 		db.execSQL("INSERT INTO lists VALUES (null, 'Testing', 'This is a sample list.')");
 		db.execSQL("INSERT INTO lists VALUES (null, 'Sample List', 'Shopping sample list.')");
+
 		db.execSQL("INSERT INTO products VALUES (null, 'Rice', 'Sample product', 21.54, 1)");
 		db.execSQL("INSERT INTO products VALUES (null, 'Soap', 'Sample product', 13.0, 1)");
 		db.execSQL("INSERT INTO products VALUES (null, 'Mouse', 'Sample product', 87.08, 1)");
