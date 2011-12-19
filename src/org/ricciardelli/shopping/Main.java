@@ -32,8 +32,8 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
 public class Main extends Activity {
-	private Database helper;
-	private SQLiteDatabase db;
+	protected static Database helper;
+	protected static SQLiteDatabase db;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -60,12 +60,12 @@ public class Main extends Activity {
 		}
 	}
 
-	private void openDatabase(Context context) {
+	protected static void openDatabase(Context context) {
 		helper = new Database(context);
 		db = helper.getWritableDatabase();
 	}
 
-	private void closeDatabase() {
+	protected static void closeDatabase() {
 		db.close();
 		helper.close();
 	}
@@ -101,10 +101,7 @@ public class Main extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				// Open an Activity with the clicked list.
-				showActivity(Main.this, Shopping.class, "name", shoppingLists
-						.getItemAtPosition(position).toString());
-
+				showActivity(Main.this, Shopping.class, getListName(id), id);
 			}
 
 		});
@@ -114,10 +111,21 @@ public class Main extends Activity {
 
 	}
 
-	private void showActivity(Context context, Class<?> c, String name,
-			String value) {
+	private void showActivity(Context context, Class<?> c, String name, long id) {
 		Intent intent = new Intent(context, c);
-		intent.putExtra(name, value);
+		intent.putExtra("name", name);
+		intent.putExtra("id", id);
 		startActivity(intent);
+	}
+
+	private String getListName(long id) {
+		openDatabase(this);
+		Cursor cursor = db.rawQuery("SELECT * FROM lists WHERE _id = " + id,
+				null);
+		cursor.moveToFirst();
+		String name = cursor.getString(1).toString();
+		closeDatabase();
+		cursor.close();
+		return name;
 	}
 }
