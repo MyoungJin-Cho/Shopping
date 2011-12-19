@@ -22,5 +22,11 @@
         <item>Apple</item>
         <item>Orange</item>
     </string-array>
+    <string-array name="crud">
+        <item>@string/create</item>
+        <item>@string/read</item>
+        <item>@string/update</item>
+        <item>@string/delete</item>
+    </string-array>
 
 </resources>

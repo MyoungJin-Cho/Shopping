@@ -30,5 +30,9 @@
     <string name="add_item">Add item</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
+    <string name="create">Create</string>
+    <string name="read">Read</string>
+    <string name="update">Update</string>
+    <string name="delete">Delete</string>
 
 </resources>
