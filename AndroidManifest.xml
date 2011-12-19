@@ -34,6 +34,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:label="@string/new_list"
+            android:name=".Form" >
+        </activity>
     </application>
 
 </manifest>
