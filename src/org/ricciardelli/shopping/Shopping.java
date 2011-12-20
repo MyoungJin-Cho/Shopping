@@ -51,9 +51,8 @@ public class Shopping extends Activity implements ViewFactory {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				if (shopping.getCheckedItemPositions().get(position)) {
+				if (shopping.getCheckedItemPositions().get(position))
 					Log.i("PRICE", getPrice(Shopping.this, id));
-				}
 			}
 		});
 	}
