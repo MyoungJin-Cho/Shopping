@@ -18,5 +18,6 @@
 <resources>
 
     <dimen name="listPreferredPaddingLeft">6dip</dimen>
+    <dimen name="listPreferredPaddingRight">6dip</dimen>
 
 </resources>
