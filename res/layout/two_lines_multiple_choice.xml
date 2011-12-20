@@ -25,17 +25,17 @@
     android:paddingRight="@dimen/listPreferredPaddingRight" >
 
     <CheckedTextView
-        android:id="@+id/checkedText1"
+        android:id="@+id/text1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:checkMark="?android:attr/listChoiceIndicatorMultiple"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
-        android:id="@+id/checkedText2"
+        android:id="@+id/text2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/checkedText1"
+        android:layout_alignBottom="@+id/text1"
         android:layout_alignParentLeft="true"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
