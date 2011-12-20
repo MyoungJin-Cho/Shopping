@@ -32,7 +32,6 @@ import android.widget.TextView;
 import android.widget.ViewSwitcher.ViewFactory;
 
 public class Shopping extends Activity implements ViewFactory {
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -61,6 +60,7 @@ public class Shopping extends Activity implements ViewFactory {
 		Main.openDatabase(context);
 		Cursor cursor = Main.db.rawQuery("SELECT * FROM products WHERE _id = "
 				+ id, null);
+		startManagingCursor(cursor);
 		cursor.moveToFirst();
 		String price = cursor.getString(3);
 		Main.closeDatabase();
@@ -86,6 +86,7 @@ public class Shopping extends Activity implements ViewFactory {
 
 	private String getTotal() {
 		// TODO Calculate total.
+
 		return "Bs.";
 	}
 
