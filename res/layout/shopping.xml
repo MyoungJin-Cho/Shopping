@@ -33,6 +33,21 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/listPreferredPaddingLeft"
+            android:text="@string/total"
+            android:textAppearance="@android:style/TextAppearance.Large" />
+
+        <TextSwitcher
+            android:id="@+id/total"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="right"
+            android:inAnimation="@android:anim/fade_in" />
     </LinearLayout>
 
 </LinearLayout>
