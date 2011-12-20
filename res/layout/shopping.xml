@@ -25,8 +25,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:choiceMode="multipleChoice"
-        android:clickable="true" />
+        android:choiceMode="multipleChoice" />
 
     <LinearLayout
         style="@android:style/ButtonBar"
