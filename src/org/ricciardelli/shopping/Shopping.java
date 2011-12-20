@@ -19,11 +19,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextSwitcher;
+import android.widget.TextView;
+import android.widget.ViewSwitcher.ViewFactory;
 
-public class Shopping extends Activity {
+public class Shopping extends Activity implements ViewFactory {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +37,7 @@ public class Shopping extends Activity {
 		Intent intent = getIntent();
 		setTitle(intent.getExtras().getString("name").toString());
 		inflateList(intent.getExtras().getLong("id"));
+		setTotal();
 	}
 
 	private void inflateList(long id) {
@@ -60,5 +66,18 @@ public class Shopping extends Activity {
 		Main.closeDatabase();
 		cursor.close();
 		return products;
+	}
+
+	private void setTotal() {
+		TextSwitcher total = (TextSwitcher) findViewById(R.id.total);
+		total.setFactory(this);
+	}
+
+	@Override
+	public View makeView() {
+		TextView text = new TextView(this);
+		text.setTextAppearance(this, android.R.style.TextAppearance_Large);
+		text.setGravity(Gravity.RIGHT);
+		return text;
 	}
 }
