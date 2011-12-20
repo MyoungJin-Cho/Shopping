@@ -19,11 +19,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.ViewSwitcher.ViewFactory;
@@ -41,36 +44,50 @@ public class Shopping extends Activity implements ViewFactory {
 	}
 
 	private void inflateList(long id) {
-		ListView shopping = (ListView) findViewById(R.id.shopping);
-		shopping.setAdapter(getAdapter(this, id));
+		final ListView shopping = (ListView) findViewById(R.id.shopping);
+		shopping.setAdapter(getTwoLinesListCheckItemAdapter(this, id));
+		shopping.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				if (shopping.getCheckedItemPositions().get(position)) {
+					Log.i("PRICE", getPrice(Shopping.this, id));
+				}
+			}
+		});
 	}
 
-	private ListAdapter getAdapter(Context context, long id) {
-		return new ArrayAdapter<String>(this,
-				android.R.layout.simple_list_item_multiple_choice, getProducts(
-						context, id));
+	private String getPrice(Context context, long id) {
+		Main.openDatabase(context);
+		Cursor cursor = Main.db.rawQuery("SELECT * FROM products WHERE _id = "
+				+ id, null);
+		cursor.moveToFirst();
+		String price = cursor.getString(3);
+		Main.closeDatabase();
+		cursor.close();
+		return price;
 	}
 
-	private String[] getProducts(Context context, long id) {
+	private ListAdapter getTwoLinesListCheckItemAdapter(Context context, long id) {
 		Main.openDatabase(context);
 		Cursor cursor = Main.db.rawQuery("SELECT * FROM products WHERE list = "
 				+ id, null);
-		String[] products = new String[cursor.getCount()];
-		short i = 0;
-		if (cursor.moveToFirst())
-			do {
-				products[i] = cursor.getString(1) + " - Bs. "
-						+ cursor.getString(3);
-				i++;
-			} while (cursor.moveToNext());
-		Main.closeDatabase();
-		cursor.close();
-		return products;
+		startManagingCursor(cursor);
+		return new SimpleCursorAdapter(context,
+				R.layout.two_lines_multiple_choice, cursor, new String[] {
+						"name", "price" }, new int[] { R.id.text1, R.id.text2 });
 	}
 
 	private void setTotal() {
 		TextSwitcher total = (TextSwitcher) findViewById(R.id.total);
 		total.setFactory(this);
+		total.setText(getTotal());
+	}
+
+	private String getTotal() {
+		// TODO Calculate total.
+		return "Bs.";
 	}
 
 	@Override
