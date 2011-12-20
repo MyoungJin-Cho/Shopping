@@ -34,5 +34,6 @@
     <string name="read">Read</string>
     <string name="update">Update</string>
     <string name="delete">Delete</string>
+    <string name="total">Total</string>
 
 </resources>
