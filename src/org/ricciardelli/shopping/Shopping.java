@@ -23,7 +23,6 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -68,7 +67,6 @@ public class Shopping extends Activity implements ViewFactory {
 							id)));
 					setTotal(total);
 				}
-				Log.i("PRICE", getPrice(Shopping.this, id));
 			}
 		});
 	}
