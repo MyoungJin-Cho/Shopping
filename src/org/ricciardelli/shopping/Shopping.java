@@ -14,11 +14,15 @@
  */
 package org.ricciardelli.shopping;
 
+import java.text.DecimalFormat;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -32,6 +36,8 @@ import android.widget.TextView;
 import android.widget.ViewSwitcher.ViewFactory;
 
 public class Shopping extends Activity implements ViewFactory {
+	private double mTotal = 0;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -39,10 +45,12 @@ public class Shopping extends Activity implements ViewFactory {
 		Intent intent = getIntent();
 		setTitle(intent.getExtras().getString("name").toString());
 		inflateList(intent.getExtras().getLong("id"));
-		setTotal();
+		// setTotal();
 	}
 
 	private void inflateList(long id) {
+		final TextSwitcher total = (TextSwitcher) findViewById(R.id.total);
+		total.setFactory(this);
 		final ListView shopping = (ListView) findViewById(R.id.shopping);
 		shopping.setAdapter(getTwoLinesListCheckItemAdapter(this, id));
 		shopping.setOnItemClickListener(new OnItemClickListener() {
@@ -50,10 +58,22 @@ public class Shopping extends Activity implements ViewFactory {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				if (shopping.getCheckedItemPositions().get(position))
-					Log.i("PRICE", getPrice(Shopping.this, id));
+				if (shopping.getCheckedItemPositions().get(position)) {
+					calculateTotal(Double.parseDouble(getPrice(Shopping.this,
+							id)));
+					total.setText("Bs. " + getTotal());
+				} else {
+					calculateTotal(-Double.parseDouble(getPrice(Shopping.this,
+							id)));
+					total.setText("Bs. " + getTotal());
+				}
+				Log.i("PRICE", getPrice(Shopping.this, id));
 			}
 		});
+	}
+
+	private double calculateTotal(double price) {
+		return mTotal += price;
 	}
 
 	private String getPrice(Context context, long id) {
@@ -78,16 +98,36 @@ public class Shopping extends Activity implements ViewFactory {
 						"name", "price" }, new int[] { R.id.text1, R.id.text2 });
 	}
 
-	private void setTotal() {
-		TextSwitcher total = (TextSwitcher) findViewById(R.id.total);
-		total.setFactory(this);
-		total.setText(getTotal());
-	}
+	// private void setTotal() {
+	// total.setText(getTotal());
+	// }
 
 	private String getTotal() {
-		// TODO Calculate total.
+		return new DecimalFormat("####.##").format(mTotal);
+	}
 
-		return "Bs.";
+	private TextWatcher getWatcher() {
+		return new TextWatcher() {
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+				// TODO Auto-generated method stub
+				// setTotal();
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+
+			}
+		};
 	}
 
 	@Override
@@ -95,6 +135,7 @@ public class Shopping extends Activity implements ViewFactory {
 		TextView text = new TextView(this);
 		text.setTextAppearance(this, android.R.style.TextAppearance_Large);
 		text.setGravity(Gravity.RIGHT);
+		text.addTextChangedListener(getWatcher());
 		return text;
 	}
 }
