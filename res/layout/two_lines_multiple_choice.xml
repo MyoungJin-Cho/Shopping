@@ -35,7 +35,7 @@
         android:id="@+id/text2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/text1"
+        android:layout_alignBottom="@id/text1"
         android:layout_alignParentLeft="true"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
