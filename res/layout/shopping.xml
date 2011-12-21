@@ -28,6 +28,14 @@
         android:choiceMode="multipleChoice"
         android:longClickable="true" />
 
+    <TextView
+        android:id="@+id/noProducts"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:text="@string/no_products"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
     <LinearLayout
         style="@android:style/ButtonBar"
         android:layout_width="fill_parent"
