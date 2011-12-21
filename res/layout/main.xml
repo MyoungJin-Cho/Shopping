@@ -24,7 +24,8 @@
         android:id="@+id/shoppingLists"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:longClickable="true" />
+        android:longClickable="true"
+        android:textFilterEnabled="true" />
 
     <TextView
         android:id="@+id/noLists"
