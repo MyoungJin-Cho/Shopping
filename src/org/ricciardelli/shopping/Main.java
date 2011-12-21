@@ -78,9 +78,9 @@ public class Main extends Activity {
 		openDatabase(context);
 		Cursor cursor = db.rawQuery(sql, null);
 		startManagingCursor(cursor);
-		return new SimpleCursorAdapter(context, R.layout.two_lines, cursor,
-				new String[] { "name", "description" }, new int[] { R.id.text1,
-						R.id.text2 });
+		return new SimpleCursorAdapter(context, R.layout.two_line_list_item,
+				cursor, new String[] { "name", "description" }, new int[] {
+						R.id.text1, R.id.text2 });
 	}
 
 	private void inflateList() {
