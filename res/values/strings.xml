@@ -19,6 +19,7 @@
 
     <string name="app_name">Shopping</string>
     <string name="no_lists">No lists</string>
+    <string name="no_products">No products</string>
     <string name="add_list">Add list</string>
     <string name="preferences">Preferences</string>
     <string name="new_list">New list</string>
