@@ -53,6 +53,7 @@ public class Shopping extends Activity implements ViewFactory {
 		total.setFactory(this);
 		final ListView shopping = (ListView) findViewById(R.id.shopping);
 		shopping.setAdapter(getTwoLinesListCheckItemAdapter(this, id));
+		shopping.setEmptyView(findViewById(R.id.noProducts));
 		shopping.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -61,11 +62,11 @@ public class Shopping extends Activity implements ViewFactory {
 				if (shopping.getCheckedItemPositions().get(position)) {
 					calculateTotal(Double.parseDouble(getPrice(Shopping.this,
 							id)));
-					total.setText("Bs. " + getTotal());
+					setTotal(total);
 				} else {
 					calculateTotal(-Double.parseDouble(getPrice(Shopping.this,
 							id)));
-					total.setText("Bs. " + getTotal());
+					setTotal(total);
 				}
 				Log.i("PRICE", getPrice(Shopping.this, id));
 			}
@@ -98,9 +99,9 @@ public class Shopping extends Activity implements ViewFactory {
 						"name", "price" }, new int[] { R.id.text1, R.id.text2 });
 	}
 
-	// private void setTotal() {
-	// total.setText(getTotal());
-	// }
+	private void setTotal(TextSwitcher totalPrice) {
+		totalPrice.setText("Bs. " + getTotal());
+	}
 
 	private String getTotal() {
 		return new DecimalFormat("####.##").format(mTotal);
@@ -113,6 +114,7 @@ public class Shopping extends Activity implements ViewFactory {
 			public void beforeTextChanged(CharSequence s, int start, int count,
 					int after) {
 				// TODO Auto-generated method stub
+				// setTotal()
 			}
 
 			@Override
@@ -136,6 +138,7 @@ public class Shopping extends Activity implements ViewFactory {
 		text.setTextAppearance(this, android.R.style.TextAppearance_Large);
 		text.setGravity(Gravity.RIGHT);
 		text.addTextChangedListener(getWatcher());
+		text.setText("Bs. 0");
 		return text;
 	}
 }
