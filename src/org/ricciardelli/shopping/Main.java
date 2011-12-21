@@ -15,11 +15,15 @@
 package org.ricciardelli.shopping;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -90,7 +94,7 @@ public class Main extends Activity {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				// alertBuilder();
+				alertBuilder(Main.this);
 				return false;
 			}
 
@@ -107,8 +111,17 @@ public class Main extends Activity {
 		});
 	}
 
-	private void alertBuilder() {
+	private void alertBuilder(Context context) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setItems(context.getResources().getStringArray(R.array.crud),
+				new OnClickListener() {
 
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						Log.i("ALERT", "You clicked " + which);
+					}
+
+				}).create().show();
 	}
 
 	private void showActivity(Context context, Class<?> c, String name, long id) {
