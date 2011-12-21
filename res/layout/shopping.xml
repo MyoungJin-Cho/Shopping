@@ -23,10 +23,11 @@
     <ListView
         android:id="@+id/shopping"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dip"
         android:layout_weight="1"
         android:choiceMode="multipleChoice"
-        android:longClickable="true" />
+        android:longClickable="true"
+        android:textFilterEnabled="true" />
 
     <TextView
         android:id="@+id/noProducts"
