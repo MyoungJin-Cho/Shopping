@@ -60,8 +60,7 @@ public class Main extends Activity {
 		case R.id.addList:
 			return super.onOptionsItemSelected(item);
 		case R.id.preferences:
-			Intent intent = new Intent(this, Preferences.class);
-			startActivity(intent);
+			showActivity(this, Preferences.class, null, 0);
 			return super.onOptionsItemSelected(item);
 		default:
 			return super.onOptionsItemSelected(item);
