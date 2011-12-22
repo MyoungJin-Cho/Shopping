@@ -24,8 +24,10 @@
         android:summaryOn="@string/vibrate_summary_on"
         android:title="@string/vibrate_title" />
 
+    <!--
     <ListPreference />
 
     <EditTextPreference />
+    -->
 
 </PreferenceScreen>
