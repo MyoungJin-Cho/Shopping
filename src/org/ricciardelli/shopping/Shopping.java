@@ -105,7 +105,7 @@ public class Shopping extends Activity implements ViewFactory {
 		return new DecimalFormat("####.##").format(mTotal);
 	}
 
-	private TextWatcher getWatcher() {
+	private TextWatcher setWatcher() {
 		return new TextWatcher() {
 
 			@Override
@@ -135,7 +135,7 @@ public class Shopping extends Activity implements ViewFactory {
 		TextView text = new TextView(this);
 		text.setTextAppearance(this, android.R.style.TextAppearance_Large);
 		text.setGravity(Gravity.RIGHT);
-		text.addTextChangedListener(getWatcher());
+		text.addTextChangedListener(setWatcher());
 		text.setText("Bs. 0");
 		return text;
 	}
