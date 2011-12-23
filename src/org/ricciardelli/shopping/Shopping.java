@@ -44,7 +44,6 @@ public class Shopping extends Activity implements ViewFactory {
 		Intent intent = getIntent();
 		setTitle(intent.getExtras().getString("name").toString());
 		inflateList(intent.getExtras().getLong("id"));
-		// setTotal();
 	}
 
 	private void inflateList(long id) {
@@ -112,14 +111,12 @@ public class Shopping extends Activity implements ViewFactory {
 			public void beforeTextChanged(CharSequence s, int start, int count,
 					int after) {
 				// TODO Auto-generated method stub
-				// setTotal()
 			}
 
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before,
 					int count) {
 				// TODO Auto-generated method stub
-				// setTotal();
 			}
 
 			@Override
