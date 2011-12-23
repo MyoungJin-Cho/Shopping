@@ -93,7 +93,7 @@ public class Shopping extends Activity implements ViewFactory {
 				+ id, null);
 		startManagingCursor(cursor);
 		return new SimpleCursorAdapter(context,
-				R.layout.two_lines_multiple_choice, cursor, new String[] {
+				R.layout.two_line_multiple_choice, cursor, new String[] {
 						"name", "price" }, new int[] { R.id.text1, R.id.text2 });
 	}
 
