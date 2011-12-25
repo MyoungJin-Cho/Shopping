@@ -39,6 +39,9 @@
             android:name=".Shopping"
             android:label="@string/new_list" />
         <activity
+            android:name=".Products"
+            android:label="@string/products" />
+        <activity
             android:name=".Preferences"
             android:label="@string/preferences" />
     </application>
