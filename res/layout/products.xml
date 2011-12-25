@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <ListView
+        android:id="@+id/products"
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:choiceMode="multipleChoice"
+        android:longClickable="true"
+        android:textFilterEnabled="true" />
+
+    <TextView
+        android:id="@+id/noProducts"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:text="@string/no_products"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <LinearLayout
+        style="@android:style/ButtonBar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/listPreferredPaddingLeft"
+        android:paddingRight="@dimen/listPreferredPaddingRight" >
+
+        <Button
+            android:id="@+id/addProducts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:text="@string/add_products" />
+    </LinearLayout>
+
+</LinearLayout>
