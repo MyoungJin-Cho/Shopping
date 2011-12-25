@@ -81,8 +81,8 @@ public class Shopping extends Activity implements ViewFactory {
 		startManagingCursor(cursor);
 		cursor.moveToFirst();
 		String price = cursor.getString(3);
-		Main.closeDatabase();
 		cursor.close();
+		Main.closeDatabase();
 		return price;
 	}
 
