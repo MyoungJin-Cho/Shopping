@@ -20,7 +20,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class Database extends SQLiteOpenHelper {
 	private static String DB_NAME = "shopping.db";
-	private static int DB_VERSION = 16;
+	private static int DB_VERSION = 17;
 
 	public Database(Context context) {
 		super(context, DB_NAME, null, DB_VERSION);
@@ -29,20 +29,31 @@ public class Database extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL("CREATE TABLE lists (_id INTEGER PRIMARY KEY AUTOINCREMENT, name STRING, description TEXT)");
-		db.execSQL("CREATE TABLE products (_id INTEGER PRIMARY KEY AUTOINCREMENT, name STRING, description TEXT, price DECIMAL, list INTEGER NOT NULL, FOREIGN KEY (list) REFERENCES lists (_id))");
+		db.execSQL("CREATE TABLE products (_id INTEGER PRIMARY KEY AUTOINCREMENT, name STRING, description TEXT, price DECIMAL)");
+		db.execSQL("CREATE TABLE shopping (lists INTEGER PRIMARY KEY, products INTEGER PRIMARY KEY, FOREIGN KEY (lists) REFERENCES lists(_id), FOREIGN KEY (products) REFERENCES products(_id))");
 
 		db.execSQL("INSERT INTO lists VALUES (null, 'Testing', 'This is a sample list.')");
 		db.execSQL("INSERT INTO lists VALUES (null, 'Sample List', 'Shopping sample list.')");
 
-		db.execSQL("INSERT INTO products VALUES (null, 'Rice', 'Sample product', 21.54, 1)");
-		db.execSQL("INSERT INTO products VALUES (null, 'Soap', 'Sample product', 13.0, 1)");
-		db.execSQL("INSERT INTO products VALUES (null, 'Mouse', 'Sample product', 87.08, 1)");
-		db.execSQL("INSERT INTO products VALUES (null, 'Pizza', 'Sample product', 20.50, 1)");
+		db.execSQL("INSERT INTO products VALUES (null, 'Rice', 'Sample product', 21.54)");
+		db.execSQL("INSERT INTO products VALUES (null, 'Soap', 'Sample product', 13.0)");
+		db.execSQL("INSERT INTO products VALUES (null, 'Mouse', 'Sample product', 87.08)");
+		db.execSQL("INSERT INTO products VALUES (null, 'Pizza', 'Sample product', 20.50)");
 
-		db.execSQL("INSERT INTO products VALUES (null, 'Apple', 'Sample product', 10.0, 2)");
-		db.execSQL("INSERT INTO products VALUES (null, 'Banana', 'Sample product', 20.50, 2)");
-		db.execSQL("INSERT INTO products VALUES (null, 'Orange', 'Sample product', 80.50, 2)");
+		db.execSQL("INSERT INTO products VALUES (null, 'Apple', 'Sample product', 10.0)");
+		db.execSQL("INSERT INTO products VALUES (null, 'Banana', 'Sample product', 20.50)");
+		db.execSQL("INSERT INTO products VALUES (null, 'Orange', 'Sample product', 80.50)");
 
+		db.execSQL("INSERT INTO shopping VALUES (1, 1)");
+		db.execSQL("INSERT INTO shopping VALUES (1, 2)");
+		db.execSQL("INSERT INTO shopping VALUES (1, 3)");
+
+		db.execSQL("INSERT INTO shopping VALUES (2, 4)");
+		db.execSQL("INSERT INTO shopping VALUES (2, 5)");
+		db.execSQL("INSERT INTO shopping VALUES (2, 6)");
+		db.execSQL("INSERT INTO shopping VALUES (2, 7)");
+		db.execSQL("INSERT INTO shopping VALUES (2, 1)");
+		db.execSQL("INSERT INTO shopping VALUES (2, 2)");
 	}
 
 	@Override
@@ -51,5 +62,4 @@ public class Database extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS products");
 		onCreate(db);
 	}
-
 }
