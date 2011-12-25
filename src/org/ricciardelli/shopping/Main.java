@@ -58,7 +58,7 @@ public class Main extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.addList:
-//			showActivity(this, Products.class, null, 0);
+			// showActivity(this, Form.class, null, 0);
 			return super.onOptionsItemSelected(item);
 		case R.id.preferences:
 			showActivity(this, Preferences.class, null, 0);
