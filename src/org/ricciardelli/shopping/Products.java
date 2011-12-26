@@ -79,6 +79,23 @@ public class Products extends Activity implements OnClickListener {
 		return ids;
 	}
 
+	// private long[] getCheckedItemIds() {
+	// if (mChoiceMode == CHOICE_MODE_NONE || mCheckedIdStates == null
+	// || mAdapter == null) {
+	// return new long[0];
+	// }
+	//
+	// final LongSparseArray<Integer> idStates = mCheckedIdStates;
+	// final int count = idStates.size();
+	// final long[] ids = new long[count];
+	//
+	// for (int i = 0; i < count; i++) {
+	// ids[i] = idStates.keyAt(i);
+	// }
+	//
+	// return ids;
+	// }
+
 	@Override
 	public void onClick(View v) {
 		for (short i = 0; i < getCheckedItemIds().length; i++)
