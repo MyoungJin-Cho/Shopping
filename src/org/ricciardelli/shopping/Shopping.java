@@ -139,7 +139,7 @@ public class Shopping extends Activity implements ViewFactory {
 	}
 
 	private String getTotal() {
-		return new DecimalFormat("####.##").format(mTotal);
+		return new DecimalFormat("####.##").format(Math.abs(mTotal));
 	}
 
 	private TextWatcher setWatcher() {
