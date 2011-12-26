@@ -24,6 +24,9 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -41,9 +44,42 @@ public class Shopping extends Activity implements ViewFactory {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.shopping);
-		Intent intent = getIntent();
-		setTitle(intent.getExtras().getString("name").toString());
-		inflateList(intent.getExtras().getLong("id"));
+		setTitle(getName());
+		inflateList(getId());
+	}
+
+	private String getName() {
+		return getIntent().getExtras().getString("name").toString();
+	}
+
+	private long getId() {
+		return getIntent().getExtras().getLong("id");
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.shopping, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.addProducts:
+			showActivity(this, Products.class, getName(), getId());
+			return super.onOptionsItemSelected(item);
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	// TODO This method should not exist here.
+	private void showActivity(Context context, Class<?> c, String name, long id) {
+		Intent intent = new Intent(context, c);
+		intent.putExtra("name", name);
+		intent.putExtra("id", id);
+		startActivity(intent);
 	}
 
 	private void inflateList(long id) {
@@ -88,8 +124,10 @@ public class Shopping extends Activity implements ViewFactory {
 
 	private ListAdapter getTwoLinesListCheckItemAdapter(Context context, long id) {
 		Main.openDatabase(context);
-		Cursor cursor = Main.db.rawQuery("SELECT * FROM products WHERE list = "
-				+ id, null);
+		Cursor cursor = Main.db
+				.rawQuery(
+						"SELECT products.* FROM products INNER JOIN shopping ON shopping.products = products._id WHERE shopping.lists = "
+								+ id, null);
 		startManagingCursor(cursor);
 		return new SimpleCursorAdapter(context,
 				R.layout.two_line_multiple_choice, cursor, new String[] {
