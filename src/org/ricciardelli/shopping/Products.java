@@ -56,13 +56,13 @@ public class Products extends Activity implements OnClickListener {
 				new String[] { "name" }, new int[] { android.R.id.text1 });
 	}
 
-	private void addProducts(Context context, long listId, long productId) {
+	private void addProducts(Context context, long productId) {
 		Main.openDatabase(context);
 		if (!Main.db.rawQuery(
-				"SELECT * FROM shopping WHERE lists = " + listId
+				"SELECT * FROM shopping WHERE lists = " + getListId()
 						+ " AND products = " + productId + "", null)
 				.moveToFirst())
-			Main.db.execSQL("INSERT INTO shopping VALUES (" + listId + ","
+			Main.db.execSQL("INSERT INTO shopping VALUES (" + getListId() + ","
 					+ productId + " )");
 		Main.closeDatabase();
 	}
