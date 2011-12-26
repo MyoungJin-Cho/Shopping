@@ -72,7 +72,7 @@ public class Products extends Activity implements OnClickListener {
 		short j = 0;
 		for (short i = 0; i < products.getCheckedItemPositions().size(); i++) {
 			if (products.getCheckedItemPositions().valueAt(i)) {
-				ids[j] = products.getCheckedItemPositions().keyAt(i) + 1;
+				ids[j] = products.getCheckedItemPositions().keyAt(i);
 				j++;
 			}
 		}
