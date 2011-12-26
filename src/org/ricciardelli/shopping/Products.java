@@ -18,12 +18,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Toast;
 
 public class Products extends Activity implements OnClickListener {
 	ListView products;
@@ -68,20 +68,22 @@ public class Products extends Activity implements OnClickListener {
 	}
 
 	private long[] getCheckedItemIds() {
-		Log.i("SPARSE", String.valueOf(products.getCheckItemIds()[0]));
-		return null;
+		long[] ids = new long[products.getCheckedItemPositions().size()];
+		short j = 0;
+		for (short i = 0; i < products.getCheckedItemPositions().size(); i++) {
+			if (products.getCheckedItemPositions().valueAt(i)) {
+				ids[j] = products.getCheckedItemPositions().keyAt(i) + 1;
+				j++;
+			}
+		}
+		return ids;
 	}
 
 	@Override
 	public void onClick(View v) {
-		// TODO Create methods to achieve this.
-		getCheckedItemIds();
-		// for (short i = 0; i < getCheckedItemIds().length; i++)
-		// addProducts(Products.this, getListId(), getCheckedItemIds()[i]);
-		// String text = getCheckedItemIds().length > 1 ? " products "
-		// : " product ";
-		// Toast.makeText(this, getCheckedItemIds().length + text + "added.",
-		// Toast.LENGTH_SHORT).show();
+		for (short i = 0; i < getCheckedItemIds().length; i++)
+			addProducts(Products.this, getCheckedItemIds()[i]);
+		Toast.makeText(this, "Products added.", Toast.LENGTH_SHORT).show();
 		finish();
 	}
 }
