@@ -20,7 +20,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class Database extends SQLiteOpenHelper {
 	private static String DB_NAME = "shopping.db";
-	private static int DB_VERSION = 18;
+	private static int DB_VERSION = 25;
 
 	public Database(Context context) {
 		super(context, DB_NAME, null, DB_VERSION);
@@ -43,23 +43,13 @@ public class Database extends SQLiteOpenHelper {
 		db.execSQL("INSERT INTO products VALUES (null, 'Apple', 'Sample product', 10.0)");
 		db.execSQL("INSERT INTO products VALUES (null, 'Banana', 'Sample product', 20.50)");
 		db.execSQL("INSERT INTO products VALUES (null, 'Orange', 'Sample product', 80.50)");
-
-		db.execSQL("INSERT INTO shopping VALUES (1, 1)");
-		db.execSQL("INSERT INTO shopping VALUES (1, 2)");
-		db.execSQL("INSERT INTO shopping VALUES (1, 3)");
-
-		db.execSQL("INSERT INTO shopping VALUES (2, 4)");
-		db.execSQL("INSERT INTO shopping VALUES (2, 5)");
-		db.execSQL("INSERT INTO shopping VALUES (2, 6)");
-		db.execSQL("INSERT INTO shopping VALUES (2, 7)");
-		db.execSQL("INSERT INTO shopping VALUES (2, 1)");
-		db.execSQL("INSERT INTO shopping VALUES (2, 2)");
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		db.execSQL("DROP TABLE IF EXISTS lists");
 		db.execSQL("DROP TABLE IF EXISTS products");
+		db.execSQL("DROP TABLE IF EXISTS shopping");
 		onCreate(db);
 	}
 }
