@@ -58,7 +58,7 @@ public class Main extends Activity implements CRUD {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.addList:
-			create((byte) 0);
+			create(0);
 			return super.onOptionsItemSelected(item);
 		case R.id.preferences:
 			showActivity(this, Preferences.class, null, 0);
@@ -124,7 +124,7 @@ public class Main extends Activity implements CRUD {
 					public void onClick(DialogInterface dialog, int which) {
 						switch (which) {
 						case 0:
-							// CREATE
+							create(0);
 							break;
 						case 1:
 							read(id);
@@ -146,6 +146,7 @@ public class Main extends Activity implements CRUD {
 		Intent intent = new Intent(context, c);
 		intent.putExtra("name", name);
 		intent.putExtra("id", id);
+		Log.i("id in SHOW ACTIVITY", "" + id);
 		startActivity(intent);
 	}
 
@@ -161,9 +162,13 @@ public class Main extends Activity implements CRUD {
 	}
 
 	@Override
-	public void create(byte id) {
-		showActivity(this, Form.class,
-				getResources().getQuantityString(R.plurals.lists, 1), id);
+	public void create(long id) {
+		if (id > 0)
+			showActivity(this, Form.class,
+					getResources().getQuantityString(R.plurals.products, 1), id);
+		else
+			showActivity(this, Form.class,
+					getResources().getQuantityString(R.plurals.lists, 1), id);
 	}
 
 	@Override
