@@ -41,5 +41,6 @@
     <string name="vibrate_summary_on">Vibration on</string>
     <string name="vibrate_summary_off">Vibration off</string>
     <string name="add_products">Add products</string>
+    <string name="add_new">Add new %s</string>
 
 </resources>
