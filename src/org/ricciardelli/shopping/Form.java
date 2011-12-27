@@ -17,8 +17,9 @@ package org.ricciardelli.shopping;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 
-public class Form extends Activity {
+public class Form extends Activity implements OnClickListener {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,4 +38,26 @@ public class Form extends Activity {
 		return getIntent().getExtras().getLong("id");
 	}
 
+	private void save() {
+		// if (getId() == 0) {
+		// getFormName();
+		// getFormDescription();
+		// getFormPrice();
+		// } else {
+		// getFormName();
+		// getFormDescription();
+		// }
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.save:
+			// if validation is ok then call save()
+			break;
+		case R.id.cancel:
+			finish();
+			break;
+		}
+	}
 }
