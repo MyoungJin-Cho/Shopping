@@ -124,33 +124,33 @@ public class Main extends Activity implements CRUD {
 	}
 
 	private void optionsBuilder(Context context, final long id) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(context);
-		builder.setItems(context.getResources().getStringArray(R.array.crud),
-				new OnClickListener() {
+		new AlertDialog.Builder(context)
+				.setItems(context.getResources().getStringArray(R.array.crud),
+						new OnClickListener() {
 
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						switch (which) {
-						case 0:
-							create(LISTS);
-							break;
-						case 1:
-							read(id);
-							break;
-						case 2:
-							// UPDATE
-							break;
-						case 3:
-							delete(id);
-							break;
-						}
-					}
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								switch (which) {
+								case 0:
+									create(LISTS);
+									break;
+								case 1:
+									read(id);
+									break;
+								case 2:
+									// UPDATE
+									break;
+								case 3:
+									delete(id);
+									break;
+								}
+							}
 
-				}).create().show();
+						}).create().show();
 	}
 
 	private void confirmationBuilder() {
-
 	}
 
 	private void showActivity(Context context, Class<?> c, String name, long id) {
