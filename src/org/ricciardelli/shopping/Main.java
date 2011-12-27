@@ -208,7 +208,6 @@ public class Main extends Activity implements CRUD {
 
 	@Override
 	public void delete(long id) {
-		// TODO Delete an existing shopping list.
 		openDatabase(this);
 		db.execSQL("DELETE FROM lists WHERE _id = " + id);
 		closeDatabase();
