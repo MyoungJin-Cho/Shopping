@@ -47,6 +47,12 @@ public class Main extends Activity implements CRUD {
 	}
 
 	@Override
+	public void onResume() {
+		super.onResume();
+		inflateList();
+	}
+
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.menu, menu);
@@ -100,7 +106,7 @@ public class Main extends Activity implements CRUD {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				alertBuilder(Main.this, id);
+				optionsBuilder(Main.this, id);
 				return false;
 			}
 
@@ -117,7 +123,7 @@ public class Main extends Activity implements CRUD {
 		});
 	}
 
-	private void alertBuilder(Context context, final long id) {
+	private void optionsBuilder(Context context, final long id) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setItems(context.getResources().getStringArray(R.array.crud),
 				new OnClickListener() {
@@ -135,12 +141,16 @@ public class Main extends Activity implements CRUD {
 							// UPDATE
 							break;
 						case 3:
-							// DELETE
+							delete(id);
 							break;
 						}
 					}
 
 				}).create().show();
+	}
+
+	private void confirmationBuilder() {
+
 	}
 
 	private void showActivity(Context context, Class<?> c, String name, long id) {
@@ -184,6 +194,8 @@ public class Main extends Activity implements CRUD {
 	@Override
 	public void delete(long id) {
 		// TODO Delete an existing shopping list.
-
+		openDatabase(this);
+		db.execSQL("DELETE FROM lists WHERE _id = " + id);
+		closeDatabase();
 	}
 }
