@@ -16,6 +16,7 @@ package org.ricciardelli.shopping;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 
 public class Form extends Activity {
 
@@ -23,6 +24,17 @@ public class Form extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.form);
+		setTitle(getString(R.string.add_new, getName()));
+		if (getId() == 0)
+			findViewById(R.id.price).setVisibility(View.GONE);
+	}
+
+	private String getName() {
+		return getIntent().getExtras().getString("name").toString();
+	}
+
+	private long getId() {
+		return getIntent().getExtras().getLong("id");
 	}
 
 }
