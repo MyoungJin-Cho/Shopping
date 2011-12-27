@@ -146,7 +146,6 @@ public class Main extends Activity implements CRUD {
 		Intent intent = new Intent(context, c);
 		intent.putExtra("name", name);
 		intent.putExtra("id", id);
-		Log.i("id in SHOW ACTIVITY", "" + id);
 		startActivity(intent);
 	}
 
