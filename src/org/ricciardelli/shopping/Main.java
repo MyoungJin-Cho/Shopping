@@ -58,7 +58,7 @@ public class Main extends Activity implements CRUD {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.addList:
-			// showActivity(this, Form.class, null, 0);
+			create((byte) 0);
 			return super.onOptionsItemSelected(item);
 		case R.id.preferences:
 			showActivity(this, Preferences.class, null, 0);
@@ -161,9 +161,9 @@ public class Main extends Activity implements CRUD {
 	}
 
 	@Override
-	public void create(byte type) {
-		// TODO Create a new shopping list.
-
+	public void create(byte id) {
+		showActivity(this, Form.class,
+				getResources().getQuantityString(R.plurals.lists, 1), id);
 	}
 
 	@Override
