@@ -15,6 +15,9 @@
 package org.ricciardelli.shopping;
 
 public interface CRUD {
+	public static final long LISTS = 0;
+	public static final long PRODUCTS = 1;
+
 	void create(long id);
 
 	void read(long id);
