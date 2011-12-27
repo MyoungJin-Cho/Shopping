@@ -35,7 +35,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
-public class Main extends Activity {
+public class Main extends Activity implements CRUD {
 	protected static Database helper;
 	protected static SQLiteDatabase db;
 
@@ -98,7 +98,7 @@ public class Main extends Activity {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				alertBuilder(Main.this);
+				alertBuilder(Main.this, id);
 				return false;
 			}
 
@@ -115,13 +115,27 @@ public class Main extends Activity {
 		});
 	}
 
-	private void alertBuilder(Context context) {
+	private void alertBuilder(Context context, final long id) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setItems(context.getResources().getStringArray(R.array.crud),
 				new OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
+						switch (which) {
+						case 0:
+							// CREATE
+							break;
+						case 1:
+							read(id);
+							break;
+						case 2:
+							// UPDATE
+							break;
+						case 3:
+							// DELETE
+							break;
+						}
 						Log.i("ALERT", "You clicked " + which);
 					}
 
@@ -144,5 +158,27 @@ public class Main extends Activity {
 		cursor.close();
 		closeDatabase();
 		return name;
+	}
+
+	@Override
+	public void create(byte type) {
+		// TODO Create a new shopping list.
+
+	}
+
+	@Override
+	public void read(long id) {
+		showActivity(Main.this, Shopping.class, getListName(id), id);
+	}
+
+	@Override
+	public void update(long id) {
+		// TODO Update an existing shopping list.
+	}
+
+	@Override
+	public void delete(long id) {
+		// TODO Delete an existing shopping list.
+
 	}
 }
