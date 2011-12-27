@@ -123,7 +123,7 @@ public class Main extends Activity implements CRUD {
 		});
 	}
 
-	private void optionsBuilder(Context context, final long id) {
+	private void optionsBuilder(final Context context, final long id) {
 		new AlertDialog.Builder(context)
 				.setItems(context.getResources().getStringArray(R.array.crud),
 						new OnClickListener() {
@@ -142,7 +142,7 @@ public class Main extends Activity implements CRUD {
 									// UPDATE
 									break;
 								case 3:
-									delete(id);
+									confirmationBuilder(context, id);
 									break;
 								}
 							}
@@ -150,7 +150,28 @@ public class Main extends Activity implements CRUD {
 						}).create().show();
 	}
 
-	private void confirmationBuilder() {
+	private void confirmationBuilder(Context context, final long id) {
+		new AlertDialog.Builder(context)
+				.setMessage(context.getString(R.string.confirmation))
+				.setPositiveButton(context.getString(R.string.yes),
+						new OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								delete(id);
+								onResume();
+							}
+						})
+				.setNegativeButton(context.getString(R.string.no),
+						new OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								dialog.cancel();
+							}
+						}).setCancelable(false).create().show();
 	}
 
 	private void showActivity(Context context, Class<?> c, String name, long id) {
