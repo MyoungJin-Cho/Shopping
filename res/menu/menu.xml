@@ -21,7 +21,12 @@
         android:id="@+id/addList"
         android:icon="@android:drawable/ic_menu_add"
         android:title="@string/add_list"/>
-    
+
+    <item
+        android:id="@+id/addProducts"
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="@string/add_products"/>
+
     <item
         android:id="@+id/preferences"
         android:icon="@android:drawable/ic_menu_preferences"
