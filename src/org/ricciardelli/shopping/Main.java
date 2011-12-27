@@ -47,12 +47,6 @@ public class Main extends Activity implements CRUD {
 	}
 
 	@Override
-	public void onResume() {
-		super.onResume();
-		inflateList();
-	}
-
-	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.menu, menu);
@@ -160,7 +154,7 @@ public class Main extends Activity implements CRUD {
 							public void onClick(DialogInterface dialog,
 									int which) {
 								delete(id);
-								onResume();
+								inflateList();
 							}
 						})
 				.setNegativeButton(context.getString(R.string.no),
