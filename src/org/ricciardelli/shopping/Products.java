@@ -61,7 +61,8 @@ public class Products extends Activity implements OnClickListener {
 		if (!Main.db.rawQuery(
 				"SELECT * FROM shopping WHERE lists = " + getListId()
 						+ " AND products = " + productId + "", null)
-				.moveToFirst())
+				.moveToFirst()
+				&& productId != 0)
 			Main.db.execSQL("INSERT INTO shopping VALUES (" + getListId() + ","
 					+ productId + " )");
 		Main.closeDatabase();
