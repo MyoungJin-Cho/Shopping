@@ -25,5 +25,9 @@
         <item quantity="other">lists</item>
         <item quantity="one">list</item>
     </plurals>
+    <plurals name="products_added">
+        <item quantity="one">1 product has been added</item>
+        <item quantity="other">%d products have been added</item>
+    </plurals>
 
 </resources>
