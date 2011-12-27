@@ -15,7 +15,7 @@
 package org.ricciardelli.shopping;
 
 public interface CRUD {
-	void create(byte id);
+	void create(long id);
 
 	void read(long id);
 
