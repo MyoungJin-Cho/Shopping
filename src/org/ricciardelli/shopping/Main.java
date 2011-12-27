@@ -58,7 +58,10 @@ public class Main extends Activity implements CRUD {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.addList:
-			create(0);
+			create(LISTS);
+			return super.onOptionsItemSelected(item);
+		case R.id.addProducts:
+			create(PRODUCTS);
 			return super.onOptionsItemSelected(item);
 		case R.id.preferences:
 			showActivity(this, Preferences.class, null, 0);
@@ -124,7 +127,7 @@ public class Main extends Activity implements CRUD {
 					public void onClick(DialogInterface dialog, int which) {
 						switch (which) {
 						case 0:
-							create(0);
+							create(LISTS);
 							break;
 						case 1:
 							read(id);
