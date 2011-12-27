@@ -22,7 +22,7 @@
         <item quantity="one">product</item>
     </plurals>
     <plurals name="lists">
-        <item lists="" quantity="other"></item>
+        <item quantity="other">lists</item>
         <item quantity="one">list</item>
     </plurals>
 
