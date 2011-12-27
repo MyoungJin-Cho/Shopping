@@ -15,11 +15,11 @@
 package org.ricciardelli.shopping;
 
 public interface CRUD {
-	void create();
+	void create(byte type);
 
-	void read();
+	void read(long id);
 
-	void update();
+	void update(long id);
 
-	void delete();
+	void delete(long id);
 }
