@@ -78,11 +78,26 @@ public class Products extends Activity implements OnClickListener {
 		return ids;
 	}
 
+	private int getSize(long[] array) {
+		int size = 0;
+		for (long item : array)
+			if (item == 0)
+				break;
+			else
+				size++;
+		return size;
+	}
+
 	@Override
 	public void onClick(View v) {
 		for (short i = 0; i < getCheckedItemIds().length; i++)
 			addProducts(Products.this, getCheckedItemIds()[i]);
-		Toast.makeText(this, "Products added.", Toast.LENGTH_SHORT).show();
+		Toast.makeText(
+				this,
+				getResources().getQuantityString(R.plurals.products_added,
+						getSize(getCheckedItemIds()),
+						getSize(getCheckedItemIds())), Toast.LENGTH_SHORT)
+				.show();
 		finish();
 	}
 }
