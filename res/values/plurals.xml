@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <plurals name="products">
+        <item quantity="other">products</item>
+        <item quantity="one">product</item>
+    </plurals>
+    <plurals name="lists">
+        <item lists="" quantity="other"></item>
+        <item quantity="one">list</item>
+    </plurals>
+
+</resources>
