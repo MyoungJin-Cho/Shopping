@@ -130,8 +130,8 @@ public class Main extends CRUD {
 
 	private void confirmationBuilder(final Context context, final long id) {
 		new AlertDialog.Builder(context)
-				.setTitle("Title")
-				.setMessage(context.getString(R.string.confirmation))
+				.setTitle(context.getString(R.string.confirmation_title))
+				.setMessage(context.getString(R.string.confirmation_message))
 				.setPositiveButton(context.getString(R.string.yes),
 						new OnClickListener() {
 
