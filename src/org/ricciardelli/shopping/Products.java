@@ -14,18 +14,17 @@
  */
 package org.ricciardelli.shopping;
 
-import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-import android.widget.Toast;
 
-public class Products extends Activity implements OnClickListener {
+public class Products extends CRUD implements OnClickListener {
 	ListView products;
 
 	@Override
@@ -48,24 +47,26 @@ public class Products extends Activity implements OnClickListener {
 	private ListAdapter getMultipleChoiceAdapter(Context context) {
 		// TODO Create a method or something like that to get the products that
 		// are not related with the current shopping list.
-		Main.openDatabase(context);
-		Cursor cursor = Main.db.rawQuery("SELECT * FROM products", null);
+		Cursor cursor = getAllRows(getProducts());
 		startManagingCursor(cursor);
 		return new SimpleCursorAdapter(context,
 				android.R.layout.simple_list_item_multiple_choice, cursor,
 				new String[] { "name" }, new int[] { android.R.id.text1 });
 	}
 
+	// TODO This shouldn't be done this way.
 	private void addProducts(Context context, long productId) {
-		Main.openDatabase(context);
-		if (!Main.db.rawQuery(
+		Database helper = new Database(context);
+		SQLiteDatabase db = helper.getWritableDatabase();
+		if (!db.rawQuery(
 				"SELECT * FROM shopping WHERE lists = " + getListId()
 						+ " AND products = " + productId + "", null)
 				.moveToFirst()
 				&& productId != 0)
-			Main.db.execSQL("INSERT INTO shopping VALUES (" + getListId() + ","
+			db.execSQL("INSERT INTO shopping VALUES (" + getListId() + ","
 					+ productId + " )");
-		Main.closeDatabase();
+		helper.close();
+		db.close();
 	}
 
 	private long[] getCheckedItemIds() {
@@ -93,12 +94,11 @@ public class Products extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		for (short i = 0; i < getCheckedItemIds().length; i++)
 			addProducts(Products.this, getCheckedItemIds()[i]);
-		Toast.makeText(
+		notification(
 				this,
 				getResources().getQuantityString(R.plurals.products_added,
 						getSize(getCheckedItemIds()),
-						getSize(getCheckedItemIds())), Toast.LENGTH_SHORT)
-				.show();
+						getSize(getCheckedItemIds())));
 		finish();
 	}
 }

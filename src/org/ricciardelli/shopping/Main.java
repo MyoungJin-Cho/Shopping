@@ -14,14 +14,11 @@
  */
 package org.ricciardelli.shopping;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
-import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,12 +30,8 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-import android.widget.Toast;
 
-public class Main extends Activity implements CRUD {
-	protected static Database helper;
-	protected static SQLiteDatabase db;
-
+public class Main extends CRUD {
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -58,10 +51,10 @@ public class Main extends Activity implements CRUD {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.addList:
-			create(LISTS);
+			showForm(getListsKey());
 			return super.onOptionsItemSelected(item);
 		case R.id.addProducts:
-			create(PRODUCTS);
+			showForm(getProductsKey());
 			return super.onOptionsItemSelected(item);
 		case R.id.preferences:
 			showActivity(this, Preferences.class, null, 0);
@@ -71,19 +64,8 @@ public class Main extends Activity implements CRUD {
 		}
 	}
 
-	protected static void openDatabase(Context context) {
-		helper = new Database(context);
-		db = helper.getWritableDatabase();
-	}
-
-	protected static void closeDatabase() {
-		db.close();
-		helper.close();
-	}
-
-	private ListAdapter getTwoLineListItemAdapter(Context context, String sql) {
-		openDatabase(context);
-		Cursor cursor = db.rawQuery(sql, null);
+	private ListAdapter getTwoLineListItemAdapter(Context context) {
+		Cursor cursor = getAllRows(getLists());
 		startManagingCursor(cursor);
 		return new SimpleCursorAdapter(context, R.layout.two_line_list_item,
 				cursor, new String[] { "name", "description" }, new int[] {
@@ -92,8 +74,7 @@ public class Main extends Activity implements CRUD {
 
 	private void inflateList() {
 		final ListView shoppingLists = (ListView) findViewById(R.id.shoppingLists);
-		shoppingLists.setAdapter(getTwoLineListItemAdapter(this,
-				"SELECT * FROM lists"));
+		shoppingLists.setAdapter(getTwoLineListItemAdapter(this));
 		shoppingLists.setEmptyView(findViewById(R.id.noLists));
 
 		shoppingLists.setOnItemLongClickListener(new OnItemLongClickListener() {
@@ -112,7 +93,8 @@ public class Main extends Activity implements CRUD {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				showActivity(Main.this, Shopping.class, getListName(id), id);
+				showActivity(Main.this, Shopping.class,
+						getName(getLists(), id), id);
 			}
 
 		});
@@ -128,10 +110,11 @@ public class Main extends Activity implements CRUD {
 									int which) {
 								switch (which) {
 								case 0:
-									create(LISTS);
+									showForm(getListsKey());
 									break;
 								case 1:
-									read(id);
+									showActivity(context, Shopping.class,
+											getName(getLists(), id), id);
 									break;
 								case 2:
 									// UPDATE
@@ -147,6 +130,7 @@ public class Main extends Activity implements CRUD {
 
 	private void confirmationBuilder(final Context context, final long id) {
 		new AlertDialog.Builder(context)
+				.setTitle("Title")
 				.setMessage(context.getString(R.string.confirmation))
 				.setPositiveButton(context.getString(R.string.yes),
 						new OnClickListener() {
@@ -155,8 +139,9 @@ public class Main extends Activity implements CRUD {
 							public void onClick(DialogInterface dialog,
 									int which) {
 								notification(context, context.getString(
-										R.string.item_deleted, getListName(id)));
-								delete(id);
+										R.string.item_deleted,
+										getName(getLists(), id)));
+								delete(getLists(), id);
 								inflateList();
 							}
 						})
@@ -171,53 +156,12 @@ public class Main extends Activity implements CRUD {
 						}).setCancelable(false).create().show();
 	}
 
-	private void showActivity(Context context, Class<?> c, String name, long id) {
-		Intent intent = new Intent(context, c);
-		intent.putExtra("name", name);
-		intent.putExtra("id", id);
-		startActivity(intent);
-	}
-
-	private void notification(Context context, String text) {
-		Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
-	}
-
-	private String getListName(long id) {
-		openDatabase(this);
-		Cursor cursor = db.rawQuery("SELECT * FROM lists WHERE _id = " + id,
-				null);
-		cursor.moveToFirst();
-		String name = cursor.getString(1).toString();
-		cursor.close();
-		closeDatabase();
-		return name;
-	}
-
-	@Override
-	public void create(long id) {
+	private void showForm(long id) {
 		if (id > 0)
 			showActivity(this, Form.class,
 					getResources().getQuantityString(R.plurals.products, 1), id);
 		else
 			showActivity(this, Form.class,
 					getResources().getQuantityString(R.plurals.lists, 1), id);
-	}
-
-	@Override
-	public void read(long id) {
-		showActivity(Main.this, Shopping.class, getListName(id), id);
-	}
-
-	@Override
-	public void update(long id) {
-		// TODO Update an existing shopping list.
-	}
-
-	@Override
-	public void delete(long id) {
-		openDatabase(this);
-		db.execSQL("DELETE FROM lists WHERE _id = " + id);
-		db.execSQL("DELETE FROM shopping WHERE lists = " + id);
-		closeDatabase();
 	}
 }

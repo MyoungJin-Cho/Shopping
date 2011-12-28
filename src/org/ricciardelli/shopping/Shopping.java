@@ -16,10 +16,9 @@ package org.ricciardelli.shopping;
 
 import java.text.DecimalFormat;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -37,7 +36,7 @@ import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.ViewSwitcher.ViewFactory;
 
-public class Shopping extends Activity implements ViewFactory {
+public class Shopping extends CRUD implements ViewFactory {
 	private double mTotal = 0;
 
 	@Override
@@ -74,14 +73,6 @@ public class Shopping extends Activity implements ViewFactory {
 		}
 	}
 
-	// TODO This method should not exist here.
-	private void showActivity(Context context, Class<?> c, String name, long id) {
-		Intent intent = new Intent(context, c);
-		intent.putExtra("name", name);
-		intent.putExtra("id", id);
-		startActivity(intent);
-	}
-
 	private void inflateList(long id) {
 		final TextSwitcher total = (TextSwitcher) findViewById(R.id.total);
 		total.setFactory(this);
@@ -94,12 +85,10 @@ public class Shopping extends Activity implements ViewFactory {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				if (shopping.getCheckedItemPositions().get(position)) {
-					calculateTotal(Double.parseDouble(getPrice(Shopping.this,
-							id)));
+					calculateTotal(getPrice(id));
 					setTotal(total);
 				} else {
-					calculateTotal(-Double.parseDouble(getPrice(Shopping.this,
-							id)));
+					calculateTotal(-getPrice(id));
 					setTotal(total);
 				}
 			}
@@ -110,21 +99,11 @@ public class Shopping extends Activity implements ViewFactory {
 		return mTotal += price;
 	}
 
-	private String getPrice(Context context, long id) {
-		Main.openDatabase(context);
-		Cursor cursor = Main.db.rawQuery("SELECT * FROM products WHERE _id = "
-				+ id, null);
-		startManagingCursor(cursor);
-		cursor.moveToFirst();
-		String price = cursor.getString(3);
-		cursor.close();
-		Main.closeDatabase();
-		return price;
-	}
-
+	// TODO This shouldn't be done this way.
 	private ListAdapter getTwoLinesListCheckItemAdapter(Context context, long id) {
-		Main.openDatabase(context);
-		Cursor cursor = Main.db
+		Database helper = new Database(context);
+		SQLiteDatabase db = helper.getWritableDatabase();
+		Cursor cursor = db
 				.rawQuery(
 						"SELECT products.* FROM products INNER JOIN shopping ON shopping.products = products._id WHERE shopping.lists = "
 								+ id, null);
