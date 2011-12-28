@@ -33,6 +33,7 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Toast;
 
 public class Main extends Activity implements CRUD {
 	protected static Database helper;
@@ -144,7 +145,7 @@ public class Main extends Activity implements CRUD {
 						}).create().show();
 	}
 
-	private void confirmationBuilder(Context context, final long id) {
+	private void confirmationBuilder(final Context context, final long id) {
 		new AlertDialog.Builder(context)
 				.setMessage(context.getString(R.string.confirmation))
 				.setPositiveButton(context.getString(R.string.yes),
@@ -153,6 +154,8 @@ public class Main extends Activity implements CRUD {
 							@Override
 							public void onClick(DialogInterface dialog,
 									int which) {
+								notification(context, context.getString(
+										R.string.item_deleted, getListName(id)));
 								delete(id);
 								inflateList();
 							}
@@ -173,6 +176,10 @@ public class Main extends Activity implements CRUD {
 		intent.putExtra("name", name);
 		intent.putExtra("id", id);
 		startActivity(intent);
+	}
+
+	private void notification(Context context, String text) {
+		Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
 	}
 
 	private String getListName(long id) {
