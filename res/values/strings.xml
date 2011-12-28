@@ -41,7 +41,8 @@
     <string name="vibrate_summary_off">Vibration off</string>
     <string name="add_products">Add products</string>
     <string name="add_new">Add new %s</string>
-    <string name="confirmation">Are you sure you want to delete this item?</string>
+    <string name="confirmation_title">Confirm delete</string>
+    <string name="confirmation_message">Are you sure you want to delete this item?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="item_deleted">%s has been deleted successfully</string>
