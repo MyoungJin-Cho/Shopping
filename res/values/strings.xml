@@ -44,5 +44,6 @@
     <string name="confirmation">Are you sure you want to delete this item?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="item_deleted">%s has been deleted successfully</string>
 
 </resources>
