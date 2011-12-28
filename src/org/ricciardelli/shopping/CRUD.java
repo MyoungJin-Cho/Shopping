@@ -14,6 +14,8 @@
  */
 package org.ricciardelli.shopping;
 
+import android.content.Context;
+
 public interface CRUD {
 	public static final long LISTS = 0;
 	public static final long PRODUCTS = 1;
@@ -25,4 +27,6 @@ public interface CRUD {
 	void update(long id);
 
 	void delete(long id);
+
+	void notification(Context context, String text);
 }
