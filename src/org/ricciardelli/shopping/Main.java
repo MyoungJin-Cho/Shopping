@@ -210,6 +210,7 @@ public class Main extends Activity implements CRUD {
 	public void delete(long id) {
 		openDatabase(this);
 		db.execSQL("DELETE FROM lists WHERE _id = " + id);
+		db.execSQL("DELETE FROM shopping WHERE lists = " + id);
 		closeDatabase();
 	}
 }
