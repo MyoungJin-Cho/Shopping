@@ -34,6 +34,8 @@ public class Database extends SQLiteOpenHelper {
 
 		db.execSQL("INSERT INTO lists VALUES (null, 'Sample List 1', 'This is a sample list.')");
 		db.execSQL("INSERT INTO lists VALUES (null, 'Sample List 2', 'This is another sample list.')");
+		db.execSQL("INSERT INTO lists VALUES (null, 'Sample List 3', 'This is another sample list.')");
+		db.execSQL("INSERT INTO lists VALUES (null, 'Sample List 4', 'This is another sample list.')");
 
 		db.execSQL("INSERT INTO products VALUES (null, 'Rice', 'Sample product', 21.54)");
 		db.execSQL("INSERT INTO products VALUES (null, 'Soap', 'Sample product', 13.0)");
