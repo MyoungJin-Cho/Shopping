@@ -14,12 +14,13 @@
  */
 package org.ricciardelli.shopping;
 
-import android.app.Activity;
+import android.content.ContentValues;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.EditText;
 
-public class Form extends Activity implements OnClickListener {
+public class Form extends CRUD implements OnClickListener {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +39,23 @@ public class Form extends Activity implements OnClickListener {
 		return getIntent().getExtras().getLong("id");
 	}
 
+	private String getFormField(int res) {
+		return ((EditText) findViewById(res)).getText().toString();
+	}
+
+	private void setFormField(int res, String text) {
+		((EditText) findViewById(res)).setText(text);
+	}
+
 	private void save() {
+		ContentValues values;
+		if (getId() == 0) {
+			if (isEmpty(getFormField(R.id.name))) {
+				setErrorMessage(getString(R.string.error_message,
+						((EditText) findViewById(R.id.name)).getHint()
+								.toString()));
+			}
+		}
 		// if (getId() == 0) {
 		// getFormName();
 		// getFormDescription();
@@ -49,11 +66,20 @@ public class Form extends Activity implements OnClickListener {
 		// }
 	}
 
+	private void setErrorMessage(String msg) {
+		notification(this, msg);
+	}
+
+	private boolean isEmpty(String text) {
+		return text.trim().equals("");
+	}
+
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.save:
 			// if validation is ok then call save()
+			save();
 			break;
 		case R.id.cancel:
 			finish();
