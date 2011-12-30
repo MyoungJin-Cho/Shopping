@@ -29,22 +29,40 @@ public class Form extends CRUD implements OnClickListener {
 		setTitle(getString(R.string.add_new, getName()));
 		if (getId() == 0)
 			findViewById(R.id.price).setVisibility(View.GONE);
+		// if (getUpdateIntent().length > 0) {
+		// setFormField(R.id.name, getName());
+		// setFormField(R.id.description, getName());
+		// if (getId() != 0)
+		// setFormField(R.id.price, getName());
+		// }
 	}
 
-	private String getName() {
-		return getIntent().getExtras().getString("name").toString();
+	private String[] getUpdateIntent() {
+		return getIntent().getExtras().getStringArray("update");
+	}
+
+	private void setFormField(int res, String text) {
+		((EditText) findViewById(res)).setText(text);
 	}
 
 	private long getId() {
 		return getIntent().getExtras().getLong("id");
 	}
 
-	private String getFormField(int res) {
-		return ((EditText) findViewById(res)).getText().toString();
+	private String getName() {
+		return getIntent().getExtras().getString("name").toString();
 	}
 
-	private void setFormField(int res, String text) {
-		((EditText) findViewById(res)).setText(text);
+	private String getDescription() {
+		return getIntent().getExtras().getString("description").toString();
+	}
+
+	private String getPrice() {
+		return getIntent().getExtras().getString("price").toString();
+	}
+
+	private String getFormField(int res) {
+		return ((EditText) findViewById(res)).getText().toString();
 	}
 
 	private void save() {
