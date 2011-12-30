@@ -158,10 +158,8 @@ public class Main extends CRUD {
 
 	private void showForm(long id) {
 		if (id > 0)
-			showActivity(this, Form.class,
-					getResources().getQuantityString(R.plurals.products, 1), id);
+			showActivity(this, Form.class, getProducts(), id);
 		else
-			showActivity(this, Form.class,
-					getResources().getQuantityString(R.plurals.lists, 1), id);
+			showActivity(this, Form.class, getLists(), id);
 	}
 }
