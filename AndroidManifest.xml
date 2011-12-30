@@ -29,9 +29,9 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
         <activity
-            android:name=".Main"
-            android:label="@string/app_name" >
-            <intent-filter>
+            android:label="@string/app_name"
+            android:name=".Main" >
+            <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -40,11 +40,11 @@
         <activity android:name=".Shopping" />
         <activity android:name=".Form" />
         <activity
-            android:name=".Products"
-            android:label="@string/products" />
+            android:label="@string/products"
+            android:name=".Products" />
         <activity
-            android:name=".Preferences"
-            android:label="@string/preferences" />
+            android:label="@string/preferences"
+            android:name=".Preferences" />
     </application>
 
 </manifest>
