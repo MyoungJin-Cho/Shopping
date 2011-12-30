@@ -48,38 +48,39 @@ public class Form extends CRUD implements OnClickListener {
 	}
 
 	private void save() {
-		ContentValues values;
-		if (getId() == 0) {
-			if (isEmpty(getFormField(R.id.name))) {
-				setErrorMessage(getString(R.string.error_message,
-						((EditText) findViewById(R.id.name)).getHint()
-								.toString()));
-			}
+		ContentValues values = new ContentValues();
+		values.put("name", getFormField(R.id.name));
+		values.put("description", getFormField(R.id.description));
+		if (getId() != 0)
+			values.put("price", getFormField(R.id.price));
+		create(getName(), values);
+		notification(this,
+				getString(R.string.item_created, getFormField(R.id.name)));
+		finish();
+	}
+
+	private boolean validateFields(String field) {
+		return field.trim().equals("");
+	}
+
+	private void validateForm() {
+		if (validateFields(getFormField(R.id.name))) {
+			notification(this,
+					getString(R.string.error_message, getString(R.string.name)));
+		} else if (validateFields(getFormField(R.id.price)) && getId() != 0) {
+			notification(
+					this,
+					getString(R.string.error_message, getString(R.string.price)));
+		} else {
+			save();
 		}
-		// if (getId() == 0) {
-		// getFormName();
-		// getFormDescription();
-		// getFormPrice();
-		// } else {
-		// getFormName();
-		// getFormDescription();
-		// }
-	}
-
-	private void setErrorMessage(String msg) {
-		notification(this, msg);
-	}
-
-	private boolean isEmpty(String text) {
-		return text.trim().equals("");
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.save:
-			// if validation is ok then call save()
-			save();
+			validateForm();
 			break;
 		case R.id.cancel:
 			finish();
