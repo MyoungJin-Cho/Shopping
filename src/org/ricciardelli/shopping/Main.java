@@ -117,7 +117,6 @@ public class Main extends CRUD {
 											getName(getLists(), id), id);
 									break;
 								case 2:
-									// UPDATE
 									showActivity(context, Form.class, id,
 											getListsKey());
 									break;
