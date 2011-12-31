@@ -14,17 +14,21 @@
  */
 package org.ricciardelli.shopping;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
-public class Products extends CRUD implements OnClickListener {
+public class Products extends CRUD implements View.OnClickListener {
 	ListView products;
 
 	@Override
@@ -42,6 +46,72 @@ public class Products extends CRUD implements OnClickListener {
 		products = (ListView) findViewById(R.id.products);
 		products.setAdapter(getMultipleChoiceAdapter(this));
 		products.setEmptyView(findViewById(R.id.noProducts));
+		products.setOnItemLongClickListener(new OnItemLongClickListener() {
+
+			@Override
+			public boolean onItemLongClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				optionsBuilder(Products.this, id);
+				return false;
+			}
+		});
+	}
+
+	private void optionsBuilder(final Context context, final long id) {
+		new AlertDialog.Builder(context)
+				.setItems(context.getResources().getStringArray(R.array.crud),
+						new OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								switch (which) {
+								case 0:
+									showActivity(context, Form.class,
+											getProducts(), getProductsKey());
+									break;
+								case 1:
+									// READ ?
+									break;
+								case 2:
+									showActivity(context, Form.class, id,
+											getProductsKey());
+									break;
+								case 3:
+									confirmationBuilder(context, id);
+									break;
+								}
+							}
+
+						}).create().show();
+	}
+
+	private void confirmationBuilder(final Context context, final long id) {
+		new AlertDialog.Builder(context)
+				.setTitle(context.getString(R.string.confirmation_title))
+				.setMessage(context.getString(R.string.confirmation_message))
+				.setPositiveButton(context.getString(R.string.yes),
+						new OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								notification(context, context.getString(
+										R.string.item_deleted,
+										getName(getProducts(), id)));
+								delete(getProducts(), id);
+								inflateList();
+							}
+						})
+				.setNegativeButton(context.getString(R.string.no),
+						new OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								dialog.cancel();
+							}
+						}).setCancelable(false).create().show();
 	}
 
 	private ListAdapter getMultipleChoiceAdapter(Context context) {
