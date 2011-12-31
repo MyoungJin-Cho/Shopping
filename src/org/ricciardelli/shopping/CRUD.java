@@ -27,11 +27,26 @@ public class CRUD extends Activity {
 	private static final String LISTS = "lists";
 	private static final String PRODUCTS = "products";
 	private static final String EXTRA_NAME = "name";
+	private static final String EXTRA_KEY = "key";
 	private static final String EXTRA_ID = "id";
-	private static final long LISTS_KEY = 0;
-	private static final long PRODUCTS_KEY = 1;
+	private static final String EXTRA_UPDATE = "update";
+	private static final byte LISTS_KEY = 0;
+	private static final byte PRODUCTS_KEY = 1;
+	private static final boolean UPDATE_KEY = true;
 	private Database helper;
 	private SQLiteDatabase db;
+
+	public static String getExtraKey() {
+		return EXTRA_KEY;
+	}
+
+	public static String getExtraUpdate() {
+		return EXTRA_UPDATE;
+	}
+
+	public static boolean isUpdateKey() {
+		return UPDATE_KEY;
+	}
 
 	public static String getLists() {
 		return LISTS;
@@ -41,11 +56,11 @@ public class CRUD extends Activity {
 		return PRODUCTS;
 	}
 
-	public static long getListsKey() {
+	public static byte getListsKey() {
 		return LISTS_KEY;
 	}
 
-	public static long getProductsKey() {
+	public static byte getProductsKey() {
 		return PRODUCTS_KEY;
 	}
 
@@ -106,7 +121,7 @@ public class CRUD extends Activity {
 		closeDatabase();
 	}
 
-	public Cursor getAllRows(String table) {
+	public Cursor getAllFromTable(String table) {
 		openDatabase();
 		Cursor cursor = db.rawQuery("SELECT * FROM " + table, null);
 		// closeDatabase();
@@ -115,7 +130,8 @@ public class CRUD extends Activity {
 
 	public void update(String table, ContentValues values, long id) {
 		openDatabase();
-		db.update(table, values, BaseColumns._ID, null);
+		db.update(table, values, BaseColumns._ID + " = " + id, null);
+		values.clear();
 		closeDatabase();
 	}
 
@@ -133,6 +149,21 @@ public class CRUD extends Activity {
 		Intent intent = new Intent(context, c);
 		intent.putExtra(EXTRA_NAME, name);
 		intent.putExtra(EXTRA_ID, id);
+		startActivity(intent);
+	}
+
+	public void showActivity(Context context, Class<?> c, String name, byte key) {
+		Intent intent = new Intent(context, c);
+		intent.putExtra(EXTRA_NAME, name);
+		intent.putExtra(EXTRA_KEY, key);
+		startActivity(intent);
+	}
+
+	public void showActivity(Context context, Class<?> c, long id, byte key) {
+		Intent intent = new Intent(context, c);
+		intent.putExtra(EXTRA_ID, id);
+		intent.putExtra(EXTRA_KEY, key);
+		intent.putExtra(EXTRA_UPDATE, UPDATE_KEY);
 		startActivity(intent);
 	}
 }
