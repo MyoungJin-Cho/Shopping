@@ -26,54 +26,77 @@ public class Form extends CRUD implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.form);
-		setTitle(getString(R.string.add_new, getName()));
-		if (getId() == 0)
+		if (getUpdateKey() && getKey() == 0) {
+			setTitle(getString(R.string.update_item,
+					getName(getLists(), getId())));
+			findViewById(R.id.save).setVisibility(View.GONE);
+			findViewById(R.id.update).setVisibility(View.VISIBLE);
+			setFormField(R.id.name, getName(getLists(), getId()));
+			setFormField(R.id.description, getDescription(getLists(), getId()));
+		} else if (getUpdateKey() && getKey() != 0) {
+			setTitle(getString(R.string.update_item,
+					getName(getProducts(), getId())));
+			findViewById(R.id.save).setVisibility(View.GONE);
+			findViewById(R.id.update).setVisibility(View.VISIBLE);
+			setFormField(R.id.name, getName(getProducts(), getId()));
+			setFormField(R.id.description,
+					getDescription(getProducts(), getId()));
+			setFormField(R.id.price, String.valueOf(getPrice(getId())));
+		} else {
+			setTitle(getString(R.string.add_new, getTable()));
+		}
+		if (getKey() == 0)
 			findViewById(R.id.price).setVisibility(View.GONE);
-		// if (getUpdateIntent().length > 0) {
-		// setFormField(R.id.name, getName());
-		// setFormField(R.id.description, getName());
-		// if (getId() != 0)
-		// setFormField(R.id.price, getName());
-		// }
 	}
 
-	private String[] getUpdateIntent() {
-		return getIntent().getExtras().getStringArray("update");
+	private boolean getUpdateKey() {
+		return getIntent().getExtras().getBoolean("update");
 	}
 
-	private void setFormField(int res, String text) {
-		((EditText) findViewById(res)).setText(text);
+	private byte getKey() {
+		return getIntent().getExtras().getByte("key");
 	}
 
 	private long getId() {
 		return getIntent().getExtras().getLong("id");
 	}
 
-	private String getName() {
+	private String getTable() {
 		return getIntent().getExtras().getString("name").toString();
-	}
-
-	private String getDescription() {
-		return getIntent().getExtras().getString("description").toString();
-	}
-
-	private String getPrice() {
-		return getIntent().getExtras().getString("price").toString();
 	}
 
 	private String getFormField(int res) {
 		return ((EditText) findViewById(res)).getText().toString();
 	}
 
+	private void setFormField(int res, String text) {
+		((EditText) findViewById(res)).setText(text);
+	}
+
 	private void save() {
 		ContentValues values = new ContentValues();
 		values.put("name", getFormField(R.id.name));
 		values.put("description", getFormField(R.id.description));
-		if (getId() != 0)
+		if (getKey() != 0)
 			values.put("price", getFormField(R.id.price));
-		create(getName(), values);
+		create(getTable(), values);
 		notification(this,
 				getString(R.string.item_created, getFormField(R.id.name)));
+		finish();
+	}
+
+	private void update() {
+		ContentValues values = new ContentValues();
+		String table = getLists();
+		values.put("name", getFormField(R.id.name));
+		values.put("description", getFormField(R.id.description));
+		if (getKey() != 0) {
+			values.put("price", getFormField(R.id.price));
+			table = getProducts();
+		}
+		update(table, values, getId());
+		notification(this,
+				getString(R.string.item_updated, getFormField(R.id.name)));
 		finish();
 	}
 
@@ -81,24 +104,30 @@ public class Form extends CRUD implements OnClickListener {
 		return field.trim().equals("");
 	}
 
-	private void validateForm() {
+	private boolean validateForm() {
 		if (validateFields(getFormField(R.id.name))) {
 			notification(this,
 					getString(R.string.error_message, getString(R.string.name)));
-		} else if (validateFields(getFormField(R.id.price)) && getId() != 0) {
+		} else if (validateFields(getFormField(R.id.price)) && getKey() != 0) {
 			notification(
 					this,
 					getString(R.string.error_message, getString(R.string.price)));
 		} else {
-			save();
+			return true;
 		}
+		return false;
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.save:
-			validateForm();
+			if (validateForm())
+				save();
+			break;
+		case R.id.update:
+			if (validateForm())
+				update();
 			break;
 		case R.id.cancel:
 			finish();
