@@ -47,7 +47,7 @@ public class Products extends CRUD implements OnClickListener {
 	private ListAdapter getMultipleChoiceAdapter(Context context) {
 		// TODO Create a method or something like that to get the products that
 		// are not related with the current shopping list.
-		Cursor cursor = getAllRows(getProducts());
+		Cursor cursor = getAllFromTable(getProducts());
 		startManagingCursor(cursor);
 		return new SimpleCursorAdapter(context,
 				android.R.layout.simple_list_item_multiple_choice, cursor,
