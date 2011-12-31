@@ -48,5 +48,7 @@
     <string name="item_deleted">%s has been deleted successfully</string>
     <string name="item_created">%s has been created successfully</string>
     <string name="error_message">%s cannot be empty</string>
+    <string name="update_item">Update %s</string>
+    <string name="item_updated">%s has been updated successfully</string>
 
 </resources>
