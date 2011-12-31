@@ -65,7 +65,7 @@ public class Main extends CRUD {
 	}
 
 	private ListAdapter getTwoLineListItemAdapter(Context context) {
-		Cursor cursor = getAllRows(getLists());
+		Cursor cursor = getAllFromTable(getLists());
 		startManagingCursor(cursor);
 		return new SimpleCursorAdapter(context, R.layout.two_line_list_item,
 				cursor, new String[] { "name", "description" }, new int[] {
@@ -118,6 +118,8 @@ public class Main extends CRUD {
 									break;
 								case 2:
 									// UPDATE
+									showActivity(context, Form.class, id,
+											getListsKey());
 									break;
 								case 3:
 									confirmationBuilder(context, id);
@@ -156,10 +158,10 @@ public class Main extends CRUD {
 						}).setCancelable(false).create().show();
 	}
 
-	private void showForm(long id) {
-		if (id > 0)
-			showActivity(this, Form.class, getProducts(), id);
+	private void showForm(byte key) {
+		if (key > 0)
+			showActivity(this, Form.class, getProducts(), key);
 		else
-			showActivity(this, Form.class, getLists(), id);
+			showActivity(this, Form.class, getLists(), key);
 	}
 }
