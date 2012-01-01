@@ -146,6 +146,12 @@ public class CRUD extends Activity {
 		closeDatabase();
 	}
 
+	public void remove(long lists) {
+		openDatabase();
+		db.delete(SHOPPING_TABLE, "lists = " + lists, null);
+		closeDatabase();
+	}
+
 	public void notification(Context context, String text) {
 		Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
 	}
