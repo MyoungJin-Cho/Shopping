@@ -68,7 +68,8 @@ public class Products extends CRUD implements View.OnClickListener {
 								switch (which) {
 								case 0:
 									showActivity(context, Form.class,
-											getProducts(), getProductsKey());
+											getProductsTable(),
+											getProductsKey());
 									break;
 								case 1:
 									// READ ?
@@ -98,8 +99,8 @@ public class Products extends CRUD implements View.OnClickListener {
 									int which) {
 								notification(context, context.getString(
 										R.string.item_deleted,
-										getName(getProducts(), id)));
-								delete(getProducts(), id);
+										getName(getProductsTable(), id)));
+								delete(getProductsTable(), id);
 								inflateList();
 							}
 						})
@@ -117,7 +118,7 @@ public class Products extends CRUD implements View.OnClickListener {
 	private ListAdapter getMultipleChoiceAdapter(Context context) {
 		// TODO Create a method or something like that to get the products that
 		// are not related with the current shopping list.
-		Cursor cursor = getAllFromTable(getProducts());
+		Cursor cursor = getAllFromTable(getProductsTable());
 		startManagingCursor(cursor);
 		return new SimpleCursorAdapter(context,
 				android.R.layout.simple_list_item_multiple_choice, cursor,

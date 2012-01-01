@@ -28,19 +28,20 @@ public class Form extends CRUD implements OnClickListener {
 		setContentView(R.layout.form);
 		if (getUpdateKey() && getKey() == 0) {
 			setTitle(getString(R.string.update_item,
-					getName(getLists(), getId())));
+					getName(getListsTable(), getId())));
 			findViewById(R.id.save).setVisibility(View.GONE);
 			findViewById(R.id.update).setVisibility(View.VISIBLE);
-			setFormField(R.id.name, getName(getLists(), getId()));
-			setFormField(R.id.description, getDescription(getLists(), getId()));
+			setFormField(R.id.name, getName(getListsTable(), getId()));
+			setFormField(R.id.description,
+					getDescription(getListsTable(), getId()));
 		} else if (getUpdateKey() && getKey() != 0) {
 			setTitle(getString(R.string.update_item,
-					getName(getProducts(), getId())));
+					getName(getProductsTable(), getId())));
 			findViewById(R.id.save).setVisibility(View.GONE);
 			findViewById(R.id.update).setVisibility(View.VISIBLE);
-			setFormField(R.id.name, getName(getProducts(), getId()));
+			setFormField(R.id.name, getName(getProductsTable(), getId()));
 			setFormField(R.id.description,
-					getDescription(getProducts(), getId()));
+					getDescription(getProductsTable(), getId()));
 			setFormField(R.id.price, String.valueOf(getPrice(getId())));
 		} else {
 			setTitle(getString(R.string.add_new, getTable()));
@@ -87,12 +88,12 @@ public class Form extends CRUD implements OnClickListener {
 
 	private void update() {
 		ContentValues values = new ContentValues();
-		String table = getLists();
+		String table = getListsTable();
 		values.put("name", getFormField(R.id.name));
 		values.put("description", getFormField(R.id.description));
 		if (getKey() != 0) {
 			values.put("price", getFormField(R.id.price));
-			table = getProducts();
+			table = getProductsTable();
 		}
 		update(table, values, getId());
 		notification(this,
