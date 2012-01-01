@@ -83,7 +83,6 @@ public class Products extends CRUD implements View.OnClickListener {
 									break;
 								}
 							}
-
 						}).create().show();
 	}
 
