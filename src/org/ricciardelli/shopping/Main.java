@@ -143,7 +143,7 @@ public class Main extends CRUD {
 										R.string.item_deleted,
 										getName(getListsTable(), id)));
 								delete(getListsTable(), id);
-								// delete(getShoppingTable(), id, )
+								remove(id);
 								inflateList();
 							}
 						})
