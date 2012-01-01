@@ -24,8 +24,9 @@ import android.provider.BaseColumns;
 import android.widget.Toast;
 
 public class CRUD extends Activity {
-	private static final String LISTS = "lists";
-	private static final String PRODUCTS = "products";
+	private static final String LISTS_TABLE = "lists";
+	private static final String PRODUCTS_TABLE = "products";
+	private static final String SHOPPING_TABLE = "shopping";
 	private static final String EXTRA_NAME = "name";
 	private static final String EXTRA_KEY = "key";
 	private static final String EXTRA_ID = "id";
@@ -48,12 +49,16 @@ public class CRUD extends Activity {
 		return UPDATE_KEY;
 	}
 
-	public static String getLists() {
-		return LISTS;
+	public static String getListsTable() {
+		return LISTS_TABLE;
 	}
 
-	public static String getProducts() {
-		return PRODUCTS;
+	public static String getProductsTable() {
+		return PRODUCTS_TABLE;
+	}
+
+	public static String getShoppingTable() {
+		return SHOPPING_TABLE;
 	}
 
 	public static byte getListsKey() {
@@ -106,7 +111,7 @@ public class CRUD extends Activity {
 
 	public double getPrice(long id) {
 		openDatabase();
-		Cursor cursor = db.rawQuery("SELECT price FROM " + PRODUCTS
+		Cursor cursor = db.rawQuery("SELECT price FROM " + PRODUCTS_TABLE
 				+ " WHERE _id = " + id, null);
 		cursor.moveToFirst();
 		double price = cursor.getDouble(0);
@@ -137,7 +142,7 @@ public class CRUD extends Activity {
 
 	public void delete(String table, long id) {
 		openDatabase();
-		db.execSQL("DELETE FROM " + table + " WHERE _id = " + id);
+		db.delete(table, BaseColumns._ID + " = " + id, null);
 		closeDatabase();
 	}
 
