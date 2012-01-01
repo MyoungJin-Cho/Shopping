@@ -23,5 +23,9 @@
         <item>@string/update</item>
         <item>@string/delete</item>
     </string-array>
+    <string-array name="item">
+        <item>@string/quantity</item>
+        <item>@string/remove</item>
+    </string-array>
 
 </resources>
