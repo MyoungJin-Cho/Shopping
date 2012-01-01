@@ -146,9 +146,9 @@ public class CRUD extends Activity {
 		closeDatabase();
 	}
 
-	public void remove(long lists) {
+	public void remove(String column, long id) {
 		openDatabase();
-		db.delete(SHOPPING_TABLE, "lists = " + lists, null);
+		db.delete(SHOPPING_TABLE, column + " = " + id, null);
 		closeDatabase();
 	}
 
