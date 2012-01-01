@@ -65,7 +65,7 @@ public class Main extends CRUD {
 	}
 
 	private ListAdapter getTwoLineListItemAdapter(Context context) {
-		Cursor cursor = getAllFromTable(getLists());
+		Cursor cursor = getAllFromTable(getListsTable());
 		startManagingCursor(cursor);
 		return new SimpleCursorAdapter(context, R.layout.two_line_list_item,
 				cursor, new String[] { "name", "description" }, new int[] {
@@ -94,7 +94,7 @@ public class Main extends CRUD {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				showActivity(Main.this, Shopping.class,
-						getName(getLists(), id), id);
+						getName(getListsTable(), id), id);
 			}
 
 		});
@@ -114,7 +114,7 @@ public class Main extends CRUD {
 									break;
 								case 1:
 									showActivity(context, Shopping.class,
-											getName(getLists(), id), id);
+											getName(getListsTable(), id), id);
 									break;
 								case 2:
 									showActivity(context, Form.class, id,
@@ -141,8 +141,9 @@ public class Main extends CRUD {
 									int which) {
 								notification(context, context.getString(
 										R.string.item_deleted,
-										getName(getLists(), id)));
-								delete(getLists(), id);
+										getName(getListsTable(), id)));
+								delete(getListsTable(), id);
+								// delete(getShoppingTable(), id, )
 								inflateList();
 							}
 						})
@@ -159,8 +160,8 @@ public class Main extends CRUD {
 
 	private void showForm(byte key) {
 		if (key > 0)
-			showActivity(this, Form.class, getProducts(), key);
+			showActivity(this, Form.class, getProductsTable(), key);
 		else
-			showActivity(this, Form.class, getLists(), key);
+			showActivity(this, Form.class, getListsTable(), key);
 	}
 }
