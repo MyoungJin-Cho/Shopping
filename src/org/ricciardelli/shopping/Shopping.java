@@ -43,6 +43,7 @@ import android.widget.ViewSwitcher.ViewFactory;
 public class Shopping extends CRUD implements ViewFactory {
 	private Cursor mCursor;
 	private double mTotal = 0;
+	private TextSwitcher mTotalSwitcher;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,8 +80,8 @@ public class Shopping extends CRUD implements ViewFactory {
 	}
 
 	private void inflateList(long id) {
-		final TextSwitcher total = (TextSwitcher) findViewById(R.id.total);
-		total.setFactory(this);
+		mTotalSwitcher = (TextSwitcher) findViewById(R.id.total);
+		mTotalSwitcher.setFactory(this);
 		final ListView shopping = (ListView) findViewById(R.id.shopping);
 		shopping.setAdapter(getTwoLinesListCheckItemAdapter(this, id));
 		shopping.setEmptyView(findViewById(R.id.noProducts));
@@ -91,10 +92,10 @@ public class Shopping extends CRUD implements ViewFactory {
 					int position, long id) {
 				if (shopping.getCheckedItemPositions().get(position)) {
 					calculateTotal(getPrice(id));
-					setTotal(total);
+					setTotal(mTotalSwitcher);
 				} else {
 					calculateTotal(-getPrice(id));
-					setTotal(total);
+					setTotal(mTotalSwitcher);
 				}
 			}
 		});
@@ -109,7 +110,6 @@ public class Shopping extends CRUD implements ViewFactory {
 				return false;
 			}
 		});
-		setTotal(total);
 	}
 
 	private void optionsBuilder(final Context context, final long id,
@@ -130,11 +130,14 @@ public class Shopping extends CRUD implements ViewFactory {
 											R.string.item_removed,
 											getName(getProductsTable(), id)));
 									remove(getProductsTable(), id);
+									if (checked) {
+										calculateTotal(-getPrice(id));
+										setTotal(mTotalSwitcher);
+									}
 									mCursor.requery();
 									break;
 								}
 							}
-
 						}).create().show();
 	}
 
