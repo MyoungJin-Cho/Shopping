@@ -41,6 +41,7 @@ import android.widget.TextView;
 import android.widget.ViewSwitcher.ViewFactory;
 
 public class Shopping extends CRUD implements ViewFactory {
+	private Cursor mCursor;
 	private double mTotal = 0;
 
 	@Override
@@ -129,9 +130,7 @@ public class Shopping extends CRUD implements ViewFactory {
 											R.string.item_removed,
 											getName(getProductsTable(), id)));
 									remove(getProductsTable(), id);
-									if (checked)
-										calculateTotal(-getPrice(id));
-									onCreate(new Bundle());
+									mCursor.requery();
 									break;
 								}
 							}
@@ -147,13 +146,13 @@ public class Shopping extends CRUD implements ViewFactory {
 	private ListAdapter getTwoLinesListCheckItemAdapter(Context context, long id) {
 		Database helper = new Database(context);
 		SQLiteDatabase db = helper.getWritableDatabase();
-		Cursor cursor = db
+		mCursor = db
 				.rawQuery(
 						"SELECT products.* FROM products INNER JOIN shopping ON shopping.products = products._id WHERE shopping.lists = "
 								+ id, null);
-		startManagingCursor(cursor);
+		startManagingCursor(mCursor);
 		return new SimpleCursorAdapter(context,
-				R.layout.two_line_multiple_choice, cursor, new String[] {
+				R.layout.two_line_multiple_choice, mCursor, new String[] {
 						"name", "price" }, new int[] { R.id.text1, R.id.text2 });
 	}
 
