@@ -17,11 +17,6 @@
 -->
 <resources>
 
-    <string-array name="products_array">
-        <item>Rice</item>
-        <item>Apple</item>
-        <item>Orange</item>
-    </string-array>
     <string-array name="crud">
         <item>@string/create</item>
         <item>@string/read</item>
