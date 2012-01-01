@@ -16,7 +16,10 @@ package org.ricciardelli.shopping;
 
 import java.text.DecimalFormat;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -29,6 +32,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -93,6 +97,46 @@ public class Shopping extends CRUD implements ViewFactory {
 				}
 			}
 		});
+
+		shopping.setOnItemLongClickListener(new OnItemLongClickListener() {
+
+			@Override
+			public boolean onItemLongClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				optionsBuilder(Shopping.this, id, shopping
+						.getCheckedItemPositions().get(position));
+				return false;
+			}
+		});
+		setTotal(total);
+	}
+
+	private void optionsBuilder(final Context context, final long id,
+			final boolean checked) {
+		new AlertDialog.Builder(context)
+				.setItems(context.getResources().getStringArray(R.array.item),
+						new OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								switch (which) {
+								case 0:
+									// editQuantity()
+									break;
+								case 1:
+									notification(context, context.getString(
+											R.string.item_removed,
+											getName(getProductsTable(), id)));
+									remove(getProductsTable(), id);
+									if (checked)
+										calculateTotal(-getPrice(id));
+									onCreate(new Bundle());
+									break;
+								}
+							}
+
+						}).create().show();
 	}
 
 	private double calculateTotal(double price) {
@@ -150,7 +194,6 @@ public class Shopping extends CRUD implements ViewFactory {
 		text.setTextAppearance(this, android.R.style.TextAppearance_Large);
 		text.setGravity(Gravity.RIGHT);
 		text.addTextChangedListener(setWatcher());
-		text.setText("Bs. 0");
 		return text;
 	}
 }
