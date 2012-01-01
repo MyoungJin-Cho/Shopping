@@ -51,5 +51,6 @@
     <string name="update_item">Update %s</string>
     <string name="item_updated">%s has been updated successfully</string>
     <string name="remove">Remove</string>
+    <string name="item_removed">%s has been removed successfully</string>
 
 </resources>
