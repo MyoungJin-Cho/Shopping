@@ -20,7 +20,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class Database extends SQLiteOpenHelper {
 	private static String DB_NAME = "shopping.db";
-	private static int DB_VERSION = 52;
+	private static int DB_VERSION = 57;
 
 	public Database(Context context) {
 		super(context, DB_NAME, null, DB_VERSION);
@@ -28,14 +28,14 @@ public class Database extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		db.execSQL("CREATE TABLE lists (_id INTEGER PRIMARY KEY AUTOINCREMENT, name STRING, description TEXT)");
+		db.execSQL("CREATE TABLE lists (_id INTEGER PRIMARY KEY AUTOINCREMENT, name STRING, description TEXT, total DECIMAL)");
 		db.execSQL("CREATE TABLE products (_id INTEGER PRIMARY KEY AUTOINCREMENT, name STRING, description TEXT, price DECIMAL)");
 		db.execSQL("CREATE TABLE shopping (lists INTEGER NOT NULL, products INTEGER NOT NULL, FOREIGN KEY (lists) REFERENCES lists(_id), FOREIGN KEY (products) REFERENCES products(_id))");
 
-		db.execSQL("INSERT INTO lists VALUES (null, 'Sample List 1', 'This is a sample list.')");
-		db.execSQL("INSERT INTO lists VALUES (null, 'Sample List 2', 'This is another sample list.')");
-		db.execSQL("INSERT INTO lists VALUES (null, 'Sample List 3', 'This is another sample list.')");
-		db.execSQL("INSERT INTO lists VALUES (null, 'Sample List 4', 'This is another sample list.')");
+		db.execSQL("INSERT INTO lists VALUES (null, 'Sample List 1', 'This is a sample list.', 0)");
+		db.execSQL("INSERT INTO lists VALUES (null, 'Sample List 2', 'This is another sample list.', 0)");
+		db.execSQL("INSERT INTO lists VALUES (null, 'Sample List 3', 'This is another sample list.', 0)");
+		db.execSQL("INSERT INTO lists VALUES (null, 'Sample List 4', 'This is another sample list.', 0)");
 
 		db.execSQL("INSERT INTO products VALUES (null, 'Rice', 'Sample product', 21.54)");
 		db.execSQL("INSERT INTO products VALUES (null, 'Soap', 'Sample product', 13.0)");
