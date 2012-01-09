@@ -152,6 +152,23 @@ public class CRUD extends Activity {
 		closeDatabase();
 	}
 
+	public double getCurrentTotal(long id) {
+		openDatabase();
+		Cursor cursor = db.query(LISTS_TABLE, new String[] { "total" },
+				BaseColumns._ID + " = " + id, null, null, null, null);
+		cursor.moveToFirst();
+		double total = Double.parseDouble(cursor.getString(0).toString());
+		cursor.close();
+		closeDatabase();
+		return total;
+	}
+
+	public void setCurrentTotal(long id, double total) {
+		openDatabase();
+		db.execSQL("UPDATE lists SET total = " + total + " WHERE _id = " + id);
+		closeDatabase();
+	}
+
 	public void notification(Context context, String text) {
 		Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
 	}
