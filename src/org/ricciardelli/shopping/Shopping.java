@@ -25,6 +25,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -46,10 +47,20 @@ public class Shopping extends CRUD implements ViewFactory {
 	private TextSwitcher mTotalSwitcher;
 
 	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		setCurrentTotal(getId(), mTotal);
+	}
+
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.shopping);
-		// mTotal = getCurrentTotal();
+		setCurrentTotal(getId(), getCurrentTotal(getId()));
+		mTotal = getCurrentTotal(getId());
+		Log.i("ID", "ID" + getId());
+		Log.i("GET TOTAL", "Total => " + getCurrentTotal(getId()));
 		setTitle(getName());
 		inflateList(getId());
 	}
