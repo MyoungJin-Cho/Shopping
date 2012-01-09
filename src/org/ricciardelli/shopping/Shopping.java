@@ -47,9 +47,8 @@ public class Shopping extends CRUD implements ViewFactory {
 	private TextSwitcher mTotalSwitcher;
 
 	@Override
-	protected void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
+	protected void onStop() {
+		super.onStop();
 		setCurrentTotal(getId(), mTotal);
 	}
 
@@ -208,6 +207,7 @@ public class Shopping extends CRUD implements ViewFactory {
 		text.setTextAppearance(this, android.R.style.TextAppearance_Large);
 		text.setGravity(Gravity.RIGHT);
 		text.addTextChangedListener(setWatcher());
+		text.setText("Bs. " + getCurrentTotal(getId()));
 		return text;
 	}
 }
